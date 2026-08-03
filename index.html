@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify - Web Player</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <i class="fa-brands fa-spotify"></i> <span>Spotify</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active" data-target="home"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+        <a href="#" class="nav-item" data-target="search"><i class="fa-solid fa-magnifying-glass"></i> <span>Search</span></a>
+        <a href="#" class="nav-item" data-target="library"><i class="fa-solid fa-book"></i> <span>Your Library</span></a>
+      </nav>
+      <div class="library-shortcuts">
+        <a href="#" class="nav-item" data-target="liked"><i class="fa-solid fa-heart"></i> <span>Liked Songs</span></a>
+        <a href="#" class="nav-item" data-target="recent"><i class="fa-solid fa-clock-rotate-left"></i> <span>Recently Played</span></a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="nav-btns">
+          <button class="mobile-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <div class="search-input-container hidden" id="searchContainer">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="What do you want to play?">
+        </div>
+        <div class="user-profile">
+          <a href="login.html" class="btn-secondary">Log In</a>
+          <a href="signup.html" class="btn-primary">Sign Up</a>
+        </div>
+      </header>
+
+      <!-- Dynamic Views -->
+      <section id="view-home" class="view-section active">
+        <h2>Good Day</h2>
+        <div class="grid-container" id="featuredGrid"></div>
+        <h2>Popular Artists</h2>
+        <div class="grid-container" id="artistsGrid"></div>
+        <h2>Popular Albums</h2>
+        <div class="grid-container" id="albumsGrid"></div>
+      </section>
+
+      <section id="view-search" class="view-section hidden">
+        <h2>Explore Tracks</h2>
+        <div class="song-list" id="searchResults"></div>
+      </section>
+
+      <section id="view-library" class="view-section hidden">
+        <h2>Your Library</h2>
+        <div class="song-list" id="libraryList"></div>
+      </section>
+
+      <section id="view-liked" class="view-section hidden">
+        <h2>Liked Songs</h2>
+        <div class="song-list" id="likedList"></div>
+      </section>
+
+      <section id="view-recent" class="view-section hidden">
+        <h2>Recently Played</h2>
+        <div class="song-list" id="recentList"></div>
+      </section>
+
+      <section id="view-detail" class="view-section hidden">
+        <div class="detail-header">
+          <img id="detailImg" src="" alt="Cover">
+          <div>
+            <span id="detailType">PLAYLIST</span>
+            <h1 id="detailTitle">Title</h1>
+            <p id="detailSubtitle">Subtitle</p>
+          </div>
+        </div>
+        <div class="song-list" id="detailList"></div>
+      </section>
+    </main>
+
+    <!-- Queue & Lyrics Side Panel -->
+    <aside class="right-panel hidden" id="rightPanel">
+      <div class="panel-header">
+        <h3 id="panelTitle">Queue</h3>
+        <button id="closePanel"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="panel-content" id="panelContent"></div>
+    </aside>
+
+    <!-- Bottom Player Controls -->
+    <footer class="player-bar">
+      <div class="now-playing">
+        <img id="playerCover" src="https://picsum.photos/seed/placeholder/60/60" alt="Cover">
+        <div class="track-info">
+          <span class="track-title" id="playerTitle">No Track Selected</span>
+          <span class="track-artist" id="playerArtist">-</span>
+        </div>
+        <button class="btn-icon" id="likeBtn"><i class="fa-regular fa-heart"></i></button>
+      </div>
+
+      <div class="player-controls">
+        <div class="control-btns">
+          <button class="btn-icon" id="shuffleBtn"><i class="fa-solid fa-shuffle"></i></button>
+          <button class="btn-icon" id="prevBtn"><i class="fa-solid fa-backward-step"></i></button>
+          <button class="btn-play" id="playBtn"><i class="fa-solid fa-play"></i></button>
+          <button class="btn-icon" id="nextBtn"><i class="fa-solid fa-forward-step"></i></button>
+          <button class="btn-icon" id="repeatBtn"><i class="fa-solid fa-repeat"></i></button>
+        </div>
+        <div class="progress-container">
+          <span id="currentTime">0:00</span>
+          <input type="range" id="progressBar" value="0" min="0" max="100">
+          <span id="durationTime">0:00</span>
+        </div>
+      </div>
+
+      <div class="extra-controls">
+        <button class="btn-icon" id="lyricsToggle"><i class="fa-solid fa-quote-right"></i></button>
+        <button class="btn-icon" id="queueToggle"><i class="fa-solid fa-list-ul"></i></button>
+        <i class="fa-solid fa-volume-high"></i>
+        <input type="range" id="volumeSlider" min="0" max="100" value="80">
+      </div>
+    </footer>
+
+    <audio id="audioEngine"></audio>
+  </div>
+
+
+  <button class="btn-icon" id="queueToggle"><i class="fa-solid fa-list-ul"></i></button>
+  <aside class="right-panel hidden" id="rightPanel">
+  <div class="panel-header">
+    <h3 id="panelTitle">Queue</h3>
+    <button id="closePanel"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="panel-content" id="panelContent"></div>
+</aside>
+
+<div class="auth-card">
+    <i class="fa-brands fa-spotify auth-logo"></i>
+    <h2>Log in to Spotify</h2>
+    <form class="auth-form" onsubmit="event.preventDefault(); window.location.href='index.html';">
+      <input type="email" placeholder="Email or Username" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit" class="btn-primary auth-submit">Log In</button>
+    </form>
+    <p>Don't have an account? <a href="signup.html">Sign up for Spotify</a></p>
+  </div>
+
+  <div class="auth-card">
+    <i class="fa-brands fa-spotify auth-logo"></i>
+    <h2>Sign up to start listening</h2>
+    <form class="auth-form" onsubmit="event.preventDefault(); window.location.href='index.html';">
+      <input type="email" placeholder="What's your email?" required>
+      <input type="password" placeholder="Create a password" required>
+      <input type="text" placeholder="What should we call you?" required>
+      <button type="submit" class="btn-primary auth-submit">Sign Up</button>
+    </form>
+    <p>Have an account? <a href="login.html">Log in here</a></p>
+  </div>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
